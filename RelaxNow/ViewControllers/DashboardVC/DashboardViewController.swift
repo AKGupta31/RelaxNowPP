@@ -121,7 +121,10 @@ extension DashboardViewController : UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        let patientData = appointmentVM.appointment(atIndex: indexPath.item)
+        let controller = AddMedicationViewController.instatiate(from: .Appointment)
+        controller.patientData = patientData
+        self.navigationController?.pushViewController(controller, animated: true)
     }
    
 }

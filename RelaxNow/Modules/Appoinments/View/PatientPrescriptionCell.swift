@@ -7,14 +7,23 @@
 
 import UIKit
 
+protocol PatientPrescriptionDelete: class {
+    func prescriptionDidSubmit(withNotes: String, prescriptions:[PrescriptionModel]?)
+}
+
 class PatientPrescriptionCell: UITableViewCell {
 
+    weak var delegate: PatientPrescriptionDelete?
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var btnSearchMedicine: UIButton!
+    @IBOutlet weak var prescriptionTextView: UITextView!
     
     @IBOutlet weak var tableViewPrescriptions: UITableView!
     
-    let numberOfCells = 3
+    var prescriptions: [PrescriptionModel]?
+    var numberOfCells:Int{
+        prescriptions?.count ?? 0
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -35,6 +44,15 @@ class PatientPrescriptionCell: UITableViewCell {
         tableViewPrescriptions.registerTableCell(identifier: .addMedicationTableCell)
     }
 
+    func configureCellWith(prescriptions: [PrescriptionModel]){
+        self.prescriptions = prescriptions
+        self.tableViewPrescriptions.reloadData()
+    }
+    
+    @IBAction func submitPrescriptionWithMedicationButtonAction(_ sender: UIButton) {
+        let notes = prescriptionTextView.text ?? ""
+        self.delegate?.prescriptionDidSubmit(withNotes: notes, prescriptions: self.prescriptions)
+    }
 }
 
 extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
@@ -44,7 +62,9 @@ extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.addMedicationTableCell.rawValue, for: indexPath) as? AddMedicationTableCell
-//        cell?.configureCell(with: indexPath)
+        if let prescription = self.prescriptions?[indexPath.row]{
+            cell?.configureCell(with: prescription)
+        }
         return cell ?? UITableViewCell()
     }
     

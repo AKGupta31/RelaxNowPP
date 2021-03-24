@@ -10,6 +10,11 @@ import Foundation
 struct PrescriptionModel {
     var medicineName:String? = nil
     var medicineId:Int? = nil
+    var potency:String? = nil
+    var dose:String? = nil
+    var duration: String? = nil
+    var action: String? = nil
+    var createdBy:String? = nil
     
     init(medicine:MedicineModel) {
         self.medicineName = medicine.name

@@ -41,6 +41,7 @@ enum EndpointItem {
     case profile
     case doctorAppointments//DOCTOR_APPOINTMENTS
     case medicineList
+    case insertPrescription
     //    case updateUser
     //    case userExists(_: String)
     
@@ -71,6 +72,7 @@ extension EndpointItem: EndPointType {
         case .profile: return "user/profile"
         case .doctorAppointments: return "api/executequery"
         case .medicineList: return "api/executequery"
+        case .insertPrescription: return "api/executequery"
         //        case .updateUser:
         //            return "user/update"
         //        case .userExists(let email):
@@ -80,10 +82,12 @@ extension EndpointItem: EndPointType {
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .login,.doctorAppointments,.medicineList:
+        case .login,.doctorAppointments,.medicineList,.insertPrescription:
             return .post
-        default:
+        case .profile:
             return .get
+//        default:
+//            return .get
         }
     }
     
@@ -91,7 +95,7 @@ extension EndpointItem: EndPointType {
         switch self {
         case .login :
             return ["Content-Type": "application/json"]
-        case .profile,.doctorAppointments,.medicineList:
+        case .profile,.doctorAppointments,.medicineList,.insertPrescription:
             return ["Content-Type": "application/json",
                     "token": UserData.current.token!]
         default:
@@ -183,6 +187,27 @@ class APIManager {
     }
     
     
+    func callMethod(type: EndpointItem, params: Parameters? = nil, handler: @escaping ([[String:Any]]?, _ error: AlertMessage?)->()) {
+        
+        self.sessionManager.request(type.url,
+                                    method: type.httpMethod,
+                                    parameters: params,
+                                    encoding: type.encoding,
+                                    headers: type.headers).validate().responseJSON { data in
+                                        switch data.result {
+                                        case .success(let response):
+                                            if let data = response as? [String: Any]{
+                                                let dict = data["data"] as? [[String: Any]]
+                                                handler(dict, nil)
+                                            }
+                                            break
+                                        case .failure(_):
+                                            handler(nil, self.parseApiError(data: data.data))
+                                            break
+                                        }
+                                    }
+    }
+    
     func call(type: EndpointItem, params: Parameters? = nil, handler: @escaping (()?, _ error: AlertMessage?)->()) {
         self.sessionManager.request(type.url,
                                     method: type.httpMethod,
@@ -250,6 +275,27 @@ class APIManager {
                                     "params":""]
         self.callMethod(type: .medicineList, params: parameter) { (medicineResponse: MedicinelistResponse?, alert) in
             complition(medicineResponse,alert)
+        }
+    }
+    
+    
+    
+    // Add Medication VC API
+    func insertPrescription(ofAppointmentId id: Int, text: String,createdBy: String, complition: @escaping (_ response: [[String: Any]]?, _ message: AlertMessage?)->()){
+        let parameter:Parameters = ["query":"call RN_APPOINTMENT_PRESCRIPTION_INSERT('\(id)','\(text)','\(createdBy)')","params":""]
+        
+        self.callMethod(type: .insertPrescription, params: parameter) { (response, alert) in
+            complition(response,alert)
+        }
+    }
+    
+    func insertMedicne(prescriptionId: Int, medicine: PrescriptionModel,createdBy: String, complition: @escaping (_ response: [[String: Any]]?, _ message: AlertMessage?)->()){
+        
+        
+        let parameter:Parameters = ["query":"call RN_APPOINTMENT_PRESCRIPTION_MEDICINE_INSERT('\(prescriptionId)','\(medicine.medicineName!)','\(medicine.potency!)','\(medicine.dose!)','\(medicine.duration!)','\(medicine.action!)','\(createdBy)')","params":""]
+        
+        self.callMethod(type: .insertPrescription, params: parameter) { (response, alert) in
+            complition(response,alert)
         }
     }
     

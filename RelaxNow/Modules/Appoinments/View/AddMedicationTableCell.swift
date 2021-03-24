@@ -8,14 +8,20 @@
 import UIKit
 
 class AddMedicationTableCell: UITableViewCell {
-    @IBOutlet weak var perDayCountTextField: UITextField!
-    @IBOutlet weak var numberOfDayCountTextField: UITextField!
+   
     @IBOutlet weak var addNoteTextField: UITextField!
     
     @IBOutlet weak var viewPlanOfAction: UIView!
     
     @IBOutlet weak var btnPlanofAction: UIButton!
     
+    @IBOutlet weak var perDayCountTextField: UITextField!
+    @IBOutlet weak var numberOfDayCountTextField: UITextField!
+    @IBOutlet weak var durationTextField: UITextField!
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    var prescriptionData: PrescriptionModel?
     override func awakeFromNib() {
         super.awakeFromNib()
         viewPlanOfAction.layer.borderWidth = 1
@@ -37,8 +43,12 @@ class AddMedicationTableCell: UITableViewCell {
         perDayCountTextField.layer.borderWidth = 1
         numberOfDayCountTextField.layer.borderWidth = 1
         addNoteTextField.layer.borderWidth = 1
-
-
+    }
+    
+    
+    func configureCell(with prescription: PrescriptionModel){
+        self.prescriptionData = prescription
+        self.titleLabel.text = prescription.medicineName
     }
     
     @IBAction func actionPlanOfAction(_ sender: UIButton) {
@@ -52,4 +62,15 @@ class AddMedicationTableCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+}
+extension AddMedicationTableCell: UITextFieldDelegate{
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == perDayCountTextField{
+            self.prescriptionData?.potency = textField.text
+        }else if textField == numberOfDayCountTextField{
+            self.prescriptionData?.dose = textField.text
+        }else if textField == durationTextField{
+            self.prescriptionData?.duration = textField.text
+        }
+    }
 }

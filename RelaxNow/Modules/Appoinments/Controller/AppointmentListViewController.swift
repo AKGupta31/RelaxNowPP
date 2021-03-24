@@ -152,6 +152,11 @@ extension AppointmentListViewController: UITableViewDelegate, UITableViewDataSou
         return cell ?? UITableViewCell()
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let appointment = appointmentVM?.appointment(atIndex: indexPath.item)
+        debugPrint("appointment ",appointment?.cUSTOMER_ID)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 85
     }
