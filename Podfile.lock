@@ -1,0 +1,28 @@
+PODS:
+  - Alamofire (4.9.1)
+  - IQKeyboardManager (6.5.6)
+  - LGSideMenuController (3.0.1)
+  - SwiftSpinner (2.2.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.9.1)
+  - IQKeyboardManager
+  - LGSideMenuController
+  - SwiftSpinner
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - IQKeyboardManager
+    - LGSideMenuController
+    - SwiftSpinner
+
+SPEC CHECKSUMS:
+  Alamofire: 85e8a02c69d6020a0d734f6054870d7ecb75cf18
+  IQKeyboardManager: 2a6e97afdafc7becf0cb17a9a8d795e3a980717f
+  LGSideMenuController: efdd688a7cd173b41996485f215d91e2bc8a520f
+  SwiftSpinner: f9b59477fe107427f2b5b835497d6636fa167ede
+
+PODFILE CHECKSUM: ad3424404eb70339944bfa73ba031909790224d6
+
+COCOAPODS: 1.10.1

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rsu-EU-IY0"/>
+                        <viewControllerLayoutGuide type="bottom" id="9iU-xq-R7l"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="Eyk-6y-PbA">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="vPT-rr-gDo">
+                                <rect key="frame" x="100" y="230" width="120" height="108"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="vPT-rr-gDo" secondAttribute="height" multiplier="10:9" id="NGv-mb-k0H"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Eyk-6y-PbA" secondAttribute="trailing" id="aBp-yq-57m"/>
+                            <constraint firstItem="vPT-rr-gDo" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="fsj-OR-1fZ"/>
+                            <constraint firstItem="Eyk-6y-PbA" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="hg1-zK-ZeD"/>
+                            <constraint firstItem="vPT-rr-gDo" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="ikK-k3-Xqp"/>
+                            <constraint firstItem="Eyk-6y-PbA" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="m14-yj-bYC"/>
+                            <constraint firstAttribute="bottom" secondItem="Eyk-6y-PbA" secondAttribute="bottom" id="oni-h4-6kl"/>
+                            <constraint firstItem="vPT-rr-gDo" firstAttribute="width" secondItem="Eyk-6y-PbA" secondAttribute="width" multiplier="0.375" id="tvM-EF-cXD"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-294.375" y="445.77464788732397"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Splash" width="640" height="960"/>
+        <image name="logo" width="153" height="138.5"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
