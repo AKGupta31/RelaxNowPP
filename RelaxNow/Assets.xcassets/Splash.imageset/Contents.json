@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "720px1280.png",
+      "filename" : "Splash-2.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "1280px1920.png",
+      "filename" : "Splash-1.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "1280px1920-1.png",
+      "filename" : "Splash.png",
       "idiom" : "iphone",
       "scale" : "3x"
     }

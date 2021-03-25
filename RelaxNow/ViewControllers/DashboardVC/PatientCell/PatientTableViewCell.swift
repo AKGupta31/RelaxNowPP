@@ -36,11 +36,12 @@ class PatientTableViewCell: UITableViewCell {
         }
         
         if let date = patient.aPPOINTMENT_DATE{
-            self.dateLabel.text = date
+           let formattedDate = DateHelper.shared.getCurrentDate(dateStr: date)
+            self.dateLabel.text = formattedDate
         }
         
-        if let address = patient.rN_CUSTOMER_ADDRESS{
-            self.addressLabel.text = address
+        if let relationNumber = patient.rELATIONSHIP_NUMBER{
+            self.addressLabel.text = relationNumber
         }
         
 //        let radius = imageView_user.frame.size.width/2.0

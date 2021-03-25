@@ -1,22 +1,12 @@
 //
-//  AppointmentViewModel.swift
+//  PatientViewModel.swift
 //  RelaxNow
 //
-//  Created by Pritrum on 11/03/21.
+//  Created by Admin on 25/03/21.
 //
 
-enum AppointmentView:Int {
-    case dashboard = 0
-    case appointmentScreen
-}
-enum Tab:Int {
-    case upcoming = 0
-    case today
-}
 
-typealias ReloadDataBlock = (()->())
-
-class AppointmentViewModel: NSObject{
+class PatientsViewModel: NSObject{
     
     private var doctorId: String?
     
@@ -32,10 +22,6 @@ class AppointmentViewModel: NSObject{
            updateDataToSearchFromArray()
         }
     }
-    
-    var totalNumberOfItems:Int {
-        return originalDataList?.count ?? 0
-    }
 
     func updateDataToSearchFromArray(){
         if self.selectedTab == .today {
@@ -50,6 +36,11 @@ class AppointmentViewModel: NSObject{
     func setAppointmentList(appointments: [PatientData]){
         self.originalDataList = appointments
         updateDataToSearchFromArray()
+    }
+    
+    
+    var totalNumberOfItems:Int {
+        return originalDataList?.count ?? 0
     }
     
     var numberOfItems: Int{

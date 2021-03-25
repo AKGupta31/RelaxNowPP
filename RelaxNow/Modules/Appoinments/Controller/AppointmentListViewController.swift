@@ -36,10 +36,12 @@ class AppointmentListViewController: UIViewController {
         setUpUI()
         if appointmentVM == nil{
             getListOfAppointments()
-            
-            
         }else{
             setUpData()
+        }
+        
+        appointmentVM?.reloadData = {[weak self] in
+            self?.appointmentListTableView.reloadData()
         }
         // Do any additional setup after loading the view.
     }
@@ -52,6 +54,10 @@ class AppointmentListViewController: UIViewController {
         departmentPicImageView.layer.masksToBounds = true
         
         upcomingAndTodayAppoinmentAction(upcomingButton)
+        patientSearchBar.compatibleSearchTextField.textColor = UIColor.black
+        patientSearchBar.compatibleSearchTextField.backgroundColor = UIColor.white
+        patientSearchBar.layer.borderWidth = 1.0
+        patientSearchBar.layer.borderColor =  (UIColor(named: "BorderColor") ?? .darkGray).cgColor
     }
     
     private func setUpData(){
@@ -82,7 +88,7 @@ class AppointmentListViewController: UIViewController {
             todayButton.layer.borderColor = UIColor.lightGreen.cgColor
             todayButton.setTitleColor(.lightGreen, for: .normal)
             upcomingButton.setTitleColor(.white, for: .normal)
-            
+            appointmentVM?.selectedTab = .upcoming
         default: //Today
             todayButton.backgroundColor = .lightGreen
             upcomingButton.backgroundColor = .clear
@@ -90,7 +96,7 @@ class AppointmentListViewController: UIViewController {
             upcomingButton.layer.borderColor = UIColor.lightGreen.cgColor
             todayButton.setTitleColor(.white, for: .normal)
             upcomingButton.setTitleColor(.lightGreen, for: .normal)
-            
+            appointmentVM?.selectedTab = .today
             
             break
         }
@@ -157,10 +163,11 @@ extension AppointmentListViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     private func getListOfAppointments(){
-        APIManager.shared().listOfAppointments("1235", "2021-03-08") { [weak self] (patients, alert) in
+        guard let id = UserData.current.userId else {return}
+        APIManager.shared().listOfAppointments(String(id), "1900-01-01") { [weak self] (patients, alert) in
             if let appointments = patients{
                 self?.appointmentVM = AppointmentViewModel()
-
+                self?.appointmentVM?.viewType = .appointmentScreen
                 self?.appointmentVM?.setAppointmentList(appointments: appointments)
                 Helper.dispatchMain {
                     self?.setUpData()

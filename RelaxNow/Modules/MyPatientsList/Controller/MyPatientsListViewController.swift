@@ -22,7 +22,7 @@ class MyPatientsListViewController: UIViewController {
     @IBOutlet weak var appointmentListTableView: UITableView!
 
 //    var patients = [PatientData]()
-    var patientsVM:AppointmentViewModel?
+    var patientsVM:PatientsViewModel?
     override func viewDidLoad() {
         super.viewDidLoad()
         registerCell()
@@ -45,13 +45,15 @@ class MyPatientsListViewController: UIViewController {
         profilePicButton.layer.masksToBounds = true
         departmentPicImageView.layer.cornerRadius = departmentPicImageView.bounds.height/2
         departmentPicImageView.layer.masksToBounds = true
-
+        patientSearchBar.compatibleSearchTextField.textColor = UIColor.black
+        patientSearchBar.compatibleSearchTextField.backgroundColor = UIColor.white
+        patientSearchBar.layer.borderWidth = 1.0
+        patientSearchBar.layer.borderColor =  (UIColor(named: "BorderColor") ?? .darkGray).cgColor
     }
     
     private func setUpData(){
-//        appointmentCount.text = "\(self.patients.count)"
-        appointmentCount.text = "\(patientsVM!.numberOfItems)"
-
+        appointmentCount.text = "\(patientsVM!.totalNumberOfItems)"
+        patientsVM?.viewType = .appointmentScreen
     }
     
     func registerCell(){
@@ -78,7 +80,7 @@ class MyPatientsListViewController: UIViewController {
 
         APIManager.shared().listOfPatientss("1235", "2021-03-08") { [weak self] (patients, alert) in
             if let patients = patients{
-                self?.patientsVM = AppointmentViewModel()
+                self?.patientsVM = PatientsViewModel()
                 self?.patientsVM?.setAppointmentList(appointments: patients)
 //                    .append(contentsOf: patients)
                 Helper.dispatchMain {

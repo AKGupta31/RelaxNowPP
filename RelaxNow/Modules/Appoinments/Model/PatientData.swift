@@ -76,5 +76,16 @@ struct PatientData : Codable {
 		gENDER_ID = try values.decodeIfPresent(Int.self, forKey: .gENDER_ID)
 		gENDER = try values.decodeIfPresent(String.self, forKey: .gENDER)
 	}
+    
+    var isTodaysAppointment :Bool{
+        guard let dateStr = self.aPPOINTMENT_DATE else {return false}
+        guard let date = DateHelper.shared.getDate(from: dateStr) else {
+            return false
+        }
+        if Calendar.current.compare(date, to: Date(), toGranularity: .day) == .orderedSame {
+            return true
+        }
+        return false
+    }
 
 }

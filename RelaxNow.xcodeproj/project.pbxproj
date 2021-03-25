@@ -34,6 +34,8 @@
 		84569D6A25EA8657004BB24C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84569D6925EA8657004BB24C /* Assets.xcassets */; };
 		84569D6D25EA8657004BB24C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84569D6B25EA8657004BB24C /* LaunchScreen.storyboard */; };
 		8472FC6D260B052000A95CDF /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8472FC6C260B052000A95CDF /* Colors.xcassets */; };
+		8472FC7F260BB59E00A95CDF /* UISearchBar+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472FC7E260BB59D00A95CDF /* UISearchBar+Ext.swift */; };
+		8472FC82260C481100A95CDF /* PatientViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8472FC81260C481000A95CDF /* PatientViewModel.swift */; };
 		8485F2372606338100D301B3 /* MedicineListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485F2362606338100D301B3 /* MedicineListViewController.swift */; };
 		8485F23A2606343E00D301B3 /* MedicineSelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485F2392606343E00D301B3 /* MedicineSelectionCell.swift */; };
 		8485F24A2606398100D301B3 /* MedicinelistResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485F2492606398100D301B3 /* MedicinelistResponse.swift */; };
@@ -98,6 +100,8 @@
 		84569D6C25EA8657004BB24C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84569D6E25EA8657004BB24C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8472FC6C260B052000A95CDF /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		8472FC7E260BB59D00A95CDF /* UISearchBar+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+Ext.swift"; sourceTree = "<group>"; };
+		8472FC81260C481000A95CDF /* PatientViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientViewModel.swift; sourceTree = "<group>"; };
 		8485F2362606338100D301B3 /* MedicineListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineListViewController.swift; sourceTree = "<group>"; };
 		8485F2392606343E00D301B3 /* MedicineSelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineSelectionCell.swift; sourceTree = "<group>"; };
 		8485F2492606398100D301B3 /* MedicinelistResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MedicinelistResponse.swift; sourceTree = "<group>"; };
@@ -353,6 +357,7 @@
 				BE4A2CEE25F14EF500B4E651 /* CollectionViewExtension.swift */,
 				BE4A2CF125F1548C00B4E651 /* UIColorExtension.swift */,
 				BEE75CE025F9558500E5542C /* UIViewExtension.swift */,
+				8472FC7E260BB59D00A95CDF /* UISearchBar+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -372,6 +377,7 @@
 			isa = PBXGroup;
 			children = (
 				BE1FAA1725FA926C005D3468 /* AppointmentViewModel.swift */,
+				8472FC81260C481000A95CDF /* PatientViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				BE88E755260117B00049933C /* LeftViewCell.swift in Sources */,
 				31538AF625EF34580033594C /* DashboardViewController.swift in Sources */,
 				8485F25A26075F1300D301B3 /* PatientAppointmentDetailsCell.swift in Sources */,
+				8472FC82260C481100A95CDF /* PatientViewModel.swift in Sources */,
 				BE1BF3F025F1478400CFE8A2 /* UIStoryboardExtension.swift in Sources */,
 				8485F2372606338100D301B3 /* MedicineListViewController.swift in Sources */,
 				316C56BB25EBDBCA00683F3D /* Constant.swift in Sources */,
@@ -582,6 +589,7 @@
 				BE1BF3B125F00C7000CFE8A2 /* AppointmentListCell.swift in Sources */,
 				BEE75CE125F9558500E5542C /* UIViewExtension.swift in Sources */,
 				BE1FAA1825FA926C005D3468 /* AppointmentViewModel.swift in Sources */,
+				8472FC7F260BB59E00A95CDF /* UISearchBar+Ext.swift in Sources */,
 				8485F23A2606343E00D301B3 /* MedicineSelectionCell.swift in Sources */,
 				316C56B125EBC6E100683F3D /* Utility.swift in Sources */,
 				84569D6325EA8654004BB24C /* SceneDelegate.swift in Sources */,
