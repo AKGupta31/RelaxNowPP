@@ -8,7 +8,8 @@
 import UIKit
 
 protocol PatientPrescriptionDelete: class {
-    func prescriptionDidSubmit(withNotes: String, prescriptions:[PrescriptionModel]?)
+    func prescriptionDidSubmit(withNotes: String, prescriptions:[PrescriptionModel])
+    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String
 }
 
 class PatientPrescriptionCell: UITableViewCell {
@@ -46,12 +47,16 @@ class PatientPrescriptionCell: UITableViewCell {
 
     func configureCellWith(prescriptions: [PrescriptionModel]){
         self.prescriptions = prescriptions
+        tableViewHeight.constant = CGFloat(140 * numberOfCells)
         self.tableViewPrescriptions.reloadData()
+        self.layoutIfNeeded()
     }
     
     @IBAction func submitPrescriptionWithMedicationButtonAction(_ sender: UIButton) {
         let notes = prescriptionTextView.text ?? ""
-        self.delegate?.prescriptionDidSubmit(withNotes: notes, prescriptions: self.prescriptions)
+        if let prescriptions = self.prescriptions {
+            self.delegate?.prescriptionDidSubmit(withNotes: notes, prescriptions: prescriptions)
+        }
     }
 }
 
@@ -64,6 +69,7 @@ extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.addMedicationTableCell.rawValue, for: indexPath) as? AddMedicationTableCell
         if let prescription = self.prescriptions?[indexPath.row]{
             cell?.configureCell(with: prescription)
+            cell?.delegate = self
         }
         return cell ?? UITableViewCell()
     }
@@ -71,5 +77,22 @@ extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140.0
     }
+    
+}
+
+extension PatientPrescriptionCell: AddMedicationDelegate{
+    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String {
+       return delegate?.didSelectPlanOfAction(prescriptionData: prescriptionData, button: button) ?? "None"
+    }
+    
+    func didUpdatePriscription(prescriptionData: PrescriptionModel) {
+        for (index, prescription) in self.prescriptions!.enumerated(){
+            if prescription.medicineId == prescriptionData.medicineId{
+                self.prescriptions?[index] = prescriptionData
+            }
+            debugPrint("Update Prescription ", self.prescriptions)
+        }
+    }
+    
     
 }

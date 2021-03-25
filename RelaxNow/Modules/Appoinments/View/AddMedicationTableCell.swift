@@ -7,8 +7,14 @@
 
 import UIKit
 
+protocol AddMedicationDelegate: class {
+    func didUpdatePriscription(prescriptionData: PrescriptionModel)
+    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String
+}
+
 class AddMedicationTableCell: UITableViewCell {
    
+    weak var delegate: AddMedicationDelegate?
     @IBOutlet weak var addNoteTextField: UITextField!
     
     @IBOutlet weak var viewPlanOfAction: UIView!
@@ -52,7 +58,8 @@ class AddMedicationTableCell: UITableViewCell {
     }
     
     @IBAction func actionPlanOfAction(_ sender: UIButton) {
-        
+        let planOfAction = delegate?.didSelectPlanOfAction(prescriptionData: self.prescriptionData!, button: sender)
+        btnPlanofAction.setTitle(planOfAction, for: .normal)
     }
     
 
@@ -71,6 +78,10 @@ extension AddMedicationTableCell: UITextFieldDelegate{
             self.prescriptionData?.dose = textField.text
         }else if textField == durationTextField{
             self.prescriptionData?.duration = textField.text
+        }
+        self.prescriptionData?.action = "None"
+        if let prescriptionData =  self.prescriptionData {
+            delegate?.didUpdatePriscription(prescriptionData: prescriptionData)
         }
     }
 }
