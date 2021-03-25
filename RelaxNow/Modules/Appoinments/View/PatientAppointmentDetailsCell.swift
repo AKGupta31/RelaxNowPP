@@ -41,9 +41,12 @@ class PatientAppointmentDetailsCell: UITableViewCell {
             self.dateLabel.text = date
         }
         
-        if let address = patientData?.rN_CUSTOMER_ADDRESS{
-            self.addressLabel.text = address
+        if let rnNumber = patientData?.rELATIONSHIP_NUMBER {
+            self.addressLabel.text = rnNumber
         }
+//        if let address = patientData?.rN_CUSTOMER_ADDRESS{
+////            self.addressLabel.text = address
+//        }
         
         if let email = patientData?.rN_CUSTOMER_EMAIL{
             self.emailButton.setTitle(email, for: .normal)

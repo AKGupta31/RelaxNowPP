@@ -9,13 +9,15 @@ import UIKit
 
 protocol AddMedicationDelegate: class {
     func didUpdatePriscription(prescriptionData: PrescriptionModel)
-    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String
+    func openPlanOfActionSheet(for prescriptionIndex:Int)
 }
-
 class AddMedicationTableCell: UITableViewCell {
    
     weak var delegate: AddMedicationDelegate?
     @IBOutlet weak var addNoteTextField: UITextField!
+    
+    @IBOutlet weak var planOfActionField: UITextField!
+    
     
     @IBOutlet weak var viewPlanOfAction: UIView!
     
@@ -28,6 +30,7 @@ class AddMedicationTableCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     
     var prescriptionData: PrescriptionModel?
+    var prescriptionIndex:Int = 0
     override func awakeFromNib() {
         super.awakeFromNib()
         viewPlanOfAction.layer.borderWidth = 1
@@ -35,6 +38,7 @@ class AddMedicationTableCell: UITableViewCell {
 
         // Initialization code
 //        setUpUI()
+        planOfActionField.delegate = self
     }
     
     
@@ -49,25 +53,21 @@ class AddMedicationTableCell: UITableViewCell {
         perDayCountTextField.layer.borderWidth = 1
         numberOfDayCountTextField.layer.borderWidth = 1
         addNoteTextField.layer.borderWidth = 1
+        
     }
     
     
     func configureCell(with prescription: PrescriptionModel){
         self.prescriptionData = prescription
         self.titleLabel.text = prescription.medicineName
+        self.planOfActionField.text = prescription.action
     }
     
     @IBAction func actionPlanOfAction(_ sender: UIButton) {
-        let planOfAction = delegate?.didSelectPlanOfAction(prescriptionData: self.prescriptionData!, button: sender)
-        btnPlanofAction.setTitle(planOfAction, for: .normal)
+//        let planOfAction = delegate?.didSelectPlanOfAction(prescriptionData: self.prescriptionData!, button: sender)
+//        btnPlanofAction.setTitle(planOfAction, for: .normal)
     }
     
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
 }
 extension AddMedicationTableCell: UITextFieldDelegate{
@@ -83,5 +83,10 @@ extension AddMedicationTableCell: UITextFieldDelegate{
         if let prescriptionData =  self.prescriptionData {
             delegate?.didUpdatePriscription(prescriptionData: prescriptionData)
         }
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("text field")
+        delegate?.openPlanOfActionSheet(for: self.prescriptionIndex)
     }
 }

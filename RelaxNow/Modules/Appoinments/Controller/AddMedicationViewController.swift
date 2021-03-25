@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import SwiftSpinner
 
 class AddMedicationViewController: UIViewController {
     @IBOutlet weak var tableViewPatientDetails: UITableView!
     
+    @IBOutlet weak var viewForPicker: UIView!
     
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -25,15 +27,20 @@ class AddMedicationViewController: UIViewController {
     @IBOutlet weak var pickerViewBottonConstraint: NSLayoutConstraint!
     private var prescriptions = [PrescriptionModel]()
     var patientData: PatientData?
-
+    var docTypePicker: UIPickerView!
+    var toolBar:UIToolbar!
+    
+    var prescriptionIndexToBeUpdated = 0
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setUpUI()
         tableViewPatientDetails.delegate = self
         tableViewPatientDetails.dataSource = self
-//        registerCell()
+        showPicker()
+        viewForPicker.isHidden = true
     }
+    
+    
     
     //MARK:- Helper Methods
 
@@ -53,7 +60,38 @@ class AddMedicationViewController: UIViewController {
     }
     
     @IBAction func profilePicAction(_ sender: UIButton) {
+    }
+    
+    func showPicker(){
+        docTypePicker = UIPickerView(frame: CGRect(x: 0, y: viewForPicker.frame.height - 200, width: viewForPicker.frame.width, height: 200))
+        docTypePicker.backgroundColor = .white
+        docTypePicker.delegate = self
+        docTypePicker.dataSource = self
         
+        toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(named: "kThemeBlue")
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(self.actionDonePicker(_:)))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(self.actionCancelPicker(_:)))
+        
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+    }
+    
+    @objc func actionDonePicker(_ sender:UIButton) {
+        view.endEditing(true)
+        self.prescriptions[prescriptionIndexToBeUpdated].action = self.planOfActionValues[docTypePicker.selectedRow(inComponent: 0)]
+        if let cell = tableViewPatientDetails.cellForRow(at: IndexPath(row: 1, section: 0)) as? PatientPrescriptionCell {
+            cell.prescriptions = self.prescriptions
+            cell.tableViewPrescriptions.reloadRows(at: [IndexPath(row: prescriptionIndexToBeUpdated, section: 0)], with: .automatic)
+        }
+    }
+    @objc func actionCancelPicker(_ sender:UIButton) {
+        view.endEditing(true)
     }
     
     
@@ -86,14 +124,6 @@ extension AddMedicationViewController: UIPickerViewDelegate, UIPickerViewDataSou
        return planOfActionValues[row]
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let selectAction = planOfActionValues[row]
-        debugPrint("selectAction ")
-        self.pickerViewBottonConstraint.constant = -200
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
-    }
 }
 
 extension AddMedicationViewController: UITableViewDelegate, UITableViewDataSource{
@@ -108,16 +138,16 @@ extension AddMedicationViewController: UITableViewDelegate, UITableViewDataSourc
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "PatientPrescriptionCell") as! PatientPrescriptionCell
-//        if let prescriptions = self.prescriptions{
             cell.configureCellWith(prescriptions: self.prescriptions)
-//        }
+        cell.planOfActionPicker = self.docTypePicker
+        cell.planOfActionToolbar = self.toolBar
         cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.row == 1 {
-            return CGFloat(128 + 44 + (self.prescriptions.count * 140) + 40)
+            return CGFloat(128 + 44 + (self.prescriptions.count * 140) + 50)
         }
         return UITableView.automaticDimension
     }
@@ -125,11 +155,13 @@ extension AddMedicationViewController: UITableViewDelegate, UITableViewDataSourc
     private func insertPrescription(withNotes notes: String,complition: @escaping (_ response: Int?)->()){
         guard let appointmentId = self.patientData?.rN_APPOINTMENT_ID else {return}
         guard let currentUserName = UserData.current.firstName else {return}
+        SwiftSpinner.show("Submitting Prescription...")
         APIManager.shared().insertPrescription(ofAppointmentId: appointmentId, text: notes, createdBy: currentUserName) { (response, error) in
             if let results = response,let PRESCRIPTION_id = results.first?["PRESCRIPTION_id"] as? Int{
                 complition(PRESCRIPTION_id)
+            }else {
+                SwiftSpinner.hide()
             }
-            debugPrint(error, response)
         }
     }
     
@@ -137,14 +169,21 @@ extension AddMedicationViewController: UITableViewDelegate, UITableViewDataSourc
 }
 
 extension AddMedicationViewController: PatientPrescriptionDelete{
-    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String {
-        //Open Picker View
-        self.pickerViewBottonConstraint.constant = 0
-        UIView.animate(withDuration: 0.3) {
-            self.view.layoutIfNeeded()
-        }
-        return "None"
+    
+    func openPlanOfActionSheet(for prescriptionIndex: Int) {
+        prescriptionIndexToBeUpdated = prescriptionIndex
     }
+    
+//    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String {
+//        //Open Picker View
+////        self.pickerViewBottonConstraint.constant = 0
+////        UIView.animate(withDuration: 0.3) {
+////            self.view.layoutIfNeeded()
+////        }
+////        return "None"
+//    }
+    
+    
 
     func prescriptionDidSubmit(withNotes: String, prescriptions: [PrescriptionModel]) {
         self.insertPrescription(withNotes: withNotes) { (PRESCRIPTION_id) in
@@ -157,20 +196,19 @@ extension AddMedicationViewController: PatientPrescriptionDelete{
     
     func insertPrescriptionMedicine(prescriptionId: Int, prescriptions: [PrescriptionModel]){
         guard let currentUserName = UserData.current.firstName else {return}
-        
         let group = DispatchGroup()
-
         for (_, prescription) in prescriptions.enumerated(){
             group.enter()
             APIManager.shared().insertMedicne(prescriptionId: prescriptionId, medicine: prescription, createdBy: currentUserName) { (response, error) in
-                debugPrint("response ",response)
-                debugPrint("error ",error)
+                if let _ = error {
+                    SwiftSpinner.hide()
+                }
                 group.leave()
             }
         }
-        
         group.notify(queue: .main) {
             debugPrint("Submit Prescription Done")
+            SwiftSpinner.hide()
         }
     }
     

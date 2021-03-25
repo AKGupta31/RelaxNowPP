@@ -10,6 +10,7 @@ import UIKit
 class MedicineSelectionCell: UITableViewCell {
     @IBOutlet weak var lblMedicineName: UILabel!
     
+    @IBOutlet weak var viewContent: UIView!
     @IBOutlet weak var btnSelectedImage: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()

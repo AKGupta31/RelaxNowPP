@@ -8,11 +8,21 @@ import UIKit
 import LGSideMenuController
 class LeftViewController: UIViewController {
 
+    @IBOutlet weak var loggedInUserImage: ZWView!
+    
+    @IBOutlet weak var lblPhone: UILabel!
+    
+    @IBOutlet weak var lblName: UILabel!
+    
+    @IBOutlet weak var lblRole: UILabel!
+    
     private var type: DemoType?
     
-    private let titlesArray = [ "Dashboard",
+    
+    
+    private let titlesArray = [ ["Dashboard",
                                "Patients",
-                               "Appointments",]
+                               "Appointments"],["Profile","Logout"]]
 
     func setup(type: DemoType) {
         self.type = type
@@ -30,9 +40,6 @@ class LeftViewController: UIViewController {
         return .fade
     }
     
-    
-    
-    
 
     // MARK: - Logging
 
@@ -47,9 +54,11 @@ class LeftViewController: UIViewController {
         struct Counter { static var count = 0 }
         Counter.count += 1
         print("LeftViewController.viewDidLoad(), counter: \(Counter.count)")
-        
-        
-        
+        let currentUser = UserData.current
+        lblName.text = (currentUser.firstName ?? "") + " " + (currentUser.lastName ??
+        "")
+        lblRole.text = currentUser.role
+        lblPhone.text = currentUser.mobile
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -93,29 +102,29 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource{
     
     // MARK: - UITableViewDataSource
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return titlesArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+       return titlesArray[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! LeftViewCell
 
-        cell.titleLabel.text = titlesArray[indexPath.row]
-        if indexPath.item == 0{
-            //dashboard
-            cell.iconImageView.image = UIImage(named: "avatar")
-
-        }else if indexPath.item == 1{
-            // Appointments
-            cell.iconImageView.image = UIImage(named: "appointment")
-
-        }else{
-            cell.iconImageView.image = UIImage(named: "patient_Green")
-        }
-        
-//        cell.separatorView.isHidden = (indexPath.row <= 3 || indexPath.row == self.titlesArray.count-1)
-//        cell.isUserInteractionEnabled = (indexPath.row != 1 && indexPath.row != 3)
-
+        cell.titleLabel.text = titlesArray[indexPath.section][indexPath.row]
+        cell.iconImageView.image = UIImage(named: titlesArray[indexPath.section][indexPath.row])
+//        if indexPath.item == 0{
+//            //dashboard
+//            cell.iconImageView.image = UIImage(named: "avatar")
+//        }else if indexPath.item == 1{
+//            // Appointments
+//            cell.iconImageView.image = UIImage(named: "appointment")
+//
+//        }else{
+//            cell.iconImageView.image = UIImage(named: "patient_Green")
+//        }
         return cell
     }
     // MARK: - UITableViewDelegate
@@ -123,6 +132,24 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 56
     }
+    
+  
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section != 0 {
+            let outerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 40))
+            outerView.backgroundColor = .clear
+            let seperator = UIView(frame: CGRect(origin: CGPoint(x: 8, y: 19), size: CGSize(width: tableView.frame.width - 16, height: 1)))
+            outerView.addSubview(seperator)
+            seperator.backgroundColor = UIColor(named: "BorderColor")
+            return outerView
+        }
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return section == 0 ? 0 : 40
+    }
+
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let sideMenuController = sideMenuController else { return }
@@ -179,4 +206,6 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource{
             sideMenuController.hideLeftView(animated: true, completion: nil)
         }
     }
+    
+    
 }

@@ -9,11 +9,14 @@ import UIKit
 
 protocol PatientPrescriptionDelete: class {
     func prescriptionDidSubmit(withNotes: String, prescriptions:[PrescriptionModel])
-    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String
+    func openPlanOfActionSheet(for prescriptionIndex:Int)
 }
 
 class PatientPrescriptionCell: UITableViewCell {
 
+    
+    @IBOutlet weak var viewSubmit: UIView!
+    
     weak var delegate: PatientPrescriptionDelete?
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var btnSearchMedicine: UIButton!
@@ -22,14 +25,19 @@ class PatientPrescriptionCell: UITableViewCell {
     @IBOutlet weak var tableViewPrescriptions: UITableView!
     
     var prescriptions: [PrescriptionModel]?
-    var numberOfCells:Int{
+    var numberOfCells:Int {
         prescriptions?.count ?? 0
     }
+    
+    var planOfActionPicker:UIPickerView? = nil
+    var planOfActionToolbar:UIToolbar? = nil
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         tableViewPrescriptions.dataSource = self
         tableViewPrescriptions.delegate = self
+        prescriptionTextView.layer.borderWidth = 1.0
+        prescriptionTextView.layer.borderColor = UIColor(named: "BorderColor")?.cgColor
         registerCell()
     }
 
@@ -62,6 +70,7 @@ class PatientPrescriptionCell: UITableViewCell {
 
 extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewSubmit.isHidden = numberOfCells <= 0
         return numberOfCells
     }
     
@@ -71,26 +80,29 @@ extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
             cell?.configureCell(with: prescription)
             cell?.delegate = self
         }
+        cell?.prescriptionIndex = indexPath.row
+        cell?.planOfActionField.inputAccessoryView = planOfActionToolbar
+        cell?.planOfActionField.inputView = planOfActionPicker
         return cell ?? UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 140.0
+        return 130.0
     }
     
 }
 
 extension PatientPrescriptionCell: AddMedicationDelegate{
-    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String {
-       return delegate?.didSelectPlanOfAction(prescriptionData: prescriptionData, button: button) ?? "None"
+    func openPlanOfActionSheet(for prescriptionIndex: Int) {
+        delegate?.openPlanOfActionSheet(for: prescriptionIndex)
     }
+    
     
     func didUpdatePriscription(prescriptionData: PrescriptionModel) {
         for (index, prescription) in self.prescriptions!.enumerated(){
             if prescription.medicineId == prescriptionData.medicineId{
                 self.prescriptions?[index] = prescriptionData
             }
-            debugPrint("Update Prescription ", self.prescriptions)
         }
     }
     

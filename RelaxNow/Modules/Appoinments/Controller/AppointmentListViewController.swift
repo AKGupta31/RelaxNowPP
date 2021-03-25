@@ -75,8 +75,8 @@ class AppointmentListViewController: UIViewController {
     }
     
     @IBAction func profilePicAction(_ sender: UIButton) {
-        let controller = MyPatientsListViewController.instatiate(from: .Appointment)
-        self.navigationController?.pushViewController(controller, animated: true)
+//        let controller = MyPatientsListViewController.instatiate(from: .Appointment)
+//        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     @IBAction func upcomingAndTodayAppoinmentAction(_ sender: UIButton) {
@@ -159,8 +159,10 @@ extension AppointmentListViewController: UITableViewDelegate, UITableViewDataSou
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let appointment = appointmentVM?.appointment(atIndex: indexPath.item)
-        debugPrint("appointment ",appointment?.cUSTOMER_ID)
+        guard let patientData = appointmentVM?.appointment(atIndex: indexPath.item) else {return}
+        let controller = AddMedicationViewController.instatiate(from: .Appointment)
+        controller.patientData = patientData
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

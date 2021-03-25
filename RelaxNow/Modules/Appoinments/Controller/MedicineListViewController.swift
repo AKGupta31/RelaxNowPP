@@ -24,6 +24,11 @@ class MedicineListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         getMedicines()
+        
+        searchBar.compatibleSearchTextField.textColor = UIColor.black
+        searchBar.compatibleSearchTextField.backgroundColor = UIColor.white
+        searchBar.layer.borderWidth = 1.0
+        searchBar.layer.borderColor =  (UIColor(named: "BorderColor") ?? .darkGray).cgColor
         // Do any additional setup after loading the view.
     }
     
@@ -76,6 +81,7 @@ extension MedicineListViewController:UITableViewDataSource, UITableViewDelegate 
         let medicine = self.searchedMedicines[indexPath.row]
         cell.lblMedicineName.text = medicine.name
         cell.btnSelectedImage.isSelected = medicine.isSelected
+        cell.viewContent.backgroundColor =  indexPath.row % 2 == 0 ? UIColor(named: "BackgroundGrayColor") : .white
         return cell
     }
     

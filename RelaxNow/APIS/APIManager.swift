@@ -292,7 +292,7 @@ class APIManager {
     func insertMedicne(prescriptionId: Int, medicine: PrescriptionModel,createdBy: String, complition: @escaping (_ response: [[String: Any]]?, _ message: AlertMessage?)->()){
         
         
-        let parameter:Parameters = ["query":"call RN_APPOINTMENT_PRESCRIPTION_MEDICINE_INSERT('\(prescriptionId)','\(medicine.medicineName!)','\(medicine.potency!)','\(medicine.dose!)','\(medicine.duration!)','\(medicine.action!)','\(createdBy)')","params":""]
+        let parameter:Parameters = ["query":"call RN_APPOINTMENT_PRESCRIPTION_MEDICINE_INSERT('\(prescriptionId)','\(medicine.medicineName!)','\(medicine.potency!)','\(medicine.dose!)','\(medicine.duration!)','\(medicine.action)','\(createdBy)')","params":""]
         
         self.callMethod(type: .insertPrescription, params: parameter) { (response, alert) in
             complition(response,alert)

@@ -48,6 +48,7 @@ class DashboardViewController: UIViewController {
         btnToday.layer.borderWidth = 1.0
         btnUpcoming.layer.borderWidth = 1.0
         btnToday.layer.borderColor = UIColor(named: "ParrotGreen")?.cgColor
+        btnUpcoming.layer.borderColor = UIColor(named: "ParrotGreen")?.cgColor
     }
     
     @IBAction func actionSeeTotalPatients(_ sender: UIButton) {
@@ -154,12 +155,9 @@ extension DashboardViewController : UITableViewDelegate, UITableViewDataSource{
         if let appointment = appointmentVM.appointment(atIndex: indexPath.item){
             cell.configureMyPatientCell(with: appointment, atIndexPath: indexPath)
         }
-//        cell.configureMyPatientCell(with: patients[indexPath.row], atIndexPath: indexPath)
         if indexPath.row %  2 == 0 {
             cell.contentView.backgroundColor = .white
-        }
-        else
-        {
+        }else{
             cell.contentView.backgroundColor = UIColor.init(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0)
             
         }

@@ -70,8 +70,8 @@ class MyPatientsListViewController: UIViewController {
         sideMenuController.showLeftView(animated: true, completion: nil)
     }
     @IBAction func profilePicAction(_ sender: UIButton) {
-        let controller = AddMedicationViewController.instatiate(from: .Appointment)
-        self.navigationController?.pushViewController(controller, animated: true)
+//        let controller = AddMedicationViewController.instatiate(from: .Appointment)
+//        self.navigationController?.pushViewController(controller, animated: true)
         
     }
  

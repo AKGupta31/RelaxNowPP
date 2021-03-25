@@ -13,7 +13,7 @@ struct PrescriptionModel {
     var potency:String? = nil
     var dose:String? = nil
     var duration: String? = nil
-    var action: String? = nil
+    var action: String = "None"
     var createdBy:String? = nil
     
     init(medicine:MedicineModel) {

@@ -15,4 +15,9 @@ class LeftViewCell: UITableViewCell {
         titleLabel.alpha = highlighted ? 0.5 : 1.0
     }
 
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.iconImageView.layer.cornerRadius = self.iconImageView.frame.height / 2
+    }
 }
