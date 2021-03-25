@@ -101,6 +101,9 @@ extension PatientPrescriptionCell: AddMedicationDelegate{
     func didUpdatePriscription(prescriptionData: PrescriptionModel) {
         for (index, prescription) in self.prescriptions!.enumerated(){
             if prescription.medicineId == prescriptionData.medicineId{
+//                if let addMedicineVC = self.parentContainerViewController as? AddMedicationViewController {
+//                    addMedicineVC.prescriptions[index]
+//                }
                 self.prescriptions?[index] = prescriptionData
             }
         }

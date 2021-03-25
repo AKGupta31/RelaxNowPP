@@ -14,7 +14,6 @@ protocol AddMedicationDelegate: class {
 class AddMedicationTableCell: UITableViewCell {
    
     weak var delegate: AddMedicationDelegate?
-    @IBOutlet weak var addNoteTextField: UITextField!
     
     @IBOutlet weak var planOfActionField: UITextField!
     
@@ -33,26 +32,30 @@ class AddMedicationTableCell: UITableViewCell {
     var prescriptionIndex:Int = 0
     override func awakeFromNib() {
         super.awakeFromNib()
-        viewPlanOfAction.layer.borderWidth = 1
-        viewPlanOfAction.layer.borderColor = UIColor.black.cgColor
-
+        
         // Initialization code
 //        setUpUI()
         planOfActionField.delegate = self
+        setUpUI()
     }
     
     
     private func setUpUI(){
         perDayCountTextField.layer.masksToBounds = true
-        addNoteTextField.layer.masksToBounds = true
         perDayCountTextField.layer.masksToBounds = true
 
-        perDayCountTextField.layer.borderColor = UIColor.systemGray.cgColor
-        numberOfDayCountTextField.layer.borderColor = UIColor.systemGray.cgColor
-        addNoteTextField.layer.borderColor = UIColor.systemGray.cgColor
+        
+        guard let borderColor = UIColor(named: "BorderColor") else {return}
+        perDayCountTextField.layer.borderColor = borderColor.cgColor
+        numberOfDayCountTextField.layer.borderColor = borderColor.cgColor
+        durationTextField.layer.borderColor = borderColor.cgColor
+        viewPlanOfAction.layer.borderColor = borderColor.cgColor
+        
         perDayCountTextField.layer.borderWidth = 1
         numberOfDayCountTextField.layer.borderWidth = 1
-        addNoteTextField.layer.borderWidth = 1
+        durationTextField.layer.borderWidth = 1
+        viewPlanOfAction.layer.borderWidth = 1
+
         
     }
     
@@ -78,15 +81,20 @@ extension AddMedicationTableCell: UITextFieldDelegate{
             self.prescriptionData?.dose = textField.text
         }else if textField == durationTextField{
             self.prescriptionData?.duration = textField.text
+        }else if textField == planOfActionField {
+            return
         }
-        self.prescriptionData?.action = "None"
         if let prescriptionData =  self.prescriptionData {
             delegate?.didUpdatePriscription(prescriptionData: prescriptionData)
         }
+      
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         print("text field")
-        delegate?.openPlanOfActionSheet(for: self.prescriptionIndex)
+        if textField == planOfActionField {
+            delegate?.openPlanOfActionSheet(for: self.prescriptionIndex)
+        }
+       
     }
 }

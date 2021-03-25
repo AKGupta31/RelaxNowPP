@@ -1366,7 +1366,7 @@
                                                     <rect key="frame" x="12" y="4" width="351" height="50"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A6O-cz-Sda">
-                                                            <rect key="frame" x="12" y="14.333333333333334" width="39.333333333333336" height="21.333333333333329"/>
+                                                            <rect key="frame" x="12" y="15.666666666666666" width="39.333333333333336" height="18.666666666666671"/>
                                                             <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="16"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>

@@ -25,7 +25,7 @@ class AddMedicationViewController: UIViewController {
 
 
     @IBOutlet weak var pickerViewBottonConstraint: NSLayoutConstraint!
-    private var prescriptions = [PrescriptionModel]()
+    var prescriptions = [PrescriptionModel]()
     var patientData: PatientData?
     var docTypePicker: UIPickerView!
     var toolBar:UIToolbar!
@@ -164,8 +164,6 @@ extension AddMedicationViewController: UITableViewDelegate, UITableViewDataSourc
             }
         }
     }
-    
-    
 }
 
 extension AddMedicationViewController: PatientPrescriptionDelete{
@@ -174,24 +172,35 @@ extension AddMedicationViewController: PatientPrescriptionDelete{
         prescriptionIndexToBeUpdated = prescriptionIndex
     }
     
-//    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String {
-//        //Open Picker View
-////        self.pickerViewBottonConstraint.constant = 0
-////        UIView.animate(withDuration: 0.3) {
-////            self.view.layoutIfNeeded()
-////        }
-////        return "None"
-//    }
-    
-    
 
     func prescriptionDidSubmit(withNotes: String, prescriptions: [PrescriptionModel]) {
+        
+        /**************VALIDATION*************/
+        var isAllPrescriptionsFilled :(isValid:Bool,errorMessage:String)!
+        var errorIndex = -1
+        for (index,prescription) in prescriptions.enumerated() {
+            isAllPrescriptionsFilled = (prescription.isAllFieldsFilled)
+            if !isAllPrescriptionsFilled.0 {
+                errorIndex = index
+                break
+            }
+        }
+        
+        if !isAllPrescriptionsFilled.0 && errorIndex != -1{
+            Alerts.showAlertViewController(title: "Alert!!!", message: isAllPrescriptionsFilled.1 + "for \(prescriptions[errorIndex].medicineName ?? "")", btnTitle1: "Ok", ok: nil, viewController: self)
+            return
+        }
+        
+        /**************END OF VALIDATION*************/
+        
         self.insertPrescription(withNotes: withNotes) { (PRESCRIPTION_id) in
             if let prescriptionId = PRESCRIPTION_id{
                 self.insertPrescriptionMedicine(prescriptionId: prescriptionId, prescriptions: prescriptions)
             }
         }
     }
+    
+    
     
     
     func insertPrescriptionMedicine(prescriptionId: Int, prescriptions: [PrescriptionModel]){
@@ -209,6 +218,9 @@ extension AddMedicationViewController: PatientPrescriptionDelete{
         group.notify(queue: .main) {
             debugPrint("Submit Prescription Done")
             SwiftSpinner.hide()
+            Alerts.showAlertViewController(title: "Success!!!", message: "Successfully submitted prescription", btnTitle1: "Ok", ok: { (action) in
+                self.navigationController?.popViewController(animated: true)
+            }, viewController: self)
         }
     }
     

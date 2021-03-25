@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PrescriptionModel {
+class PrescriptionModel {
     var medicineName:String? = nil
     var medicineId:Int? = nil
     var potency:String? = nil
@@ -28,6 +28,19 @@ struct PrescriptionModel {
         }
         return prescriptions
     }
+    
+    var isAllFieldsFilled:(Bool,String) {
+        if potency?.isEmpty ?? true {
+            return (false,"Potency is missing")
+        }else if dose?.isEmpty ?? true {
+            return (false,"Dose is missing")
+        }else if duration?.isEmpty ?? true {
+            return (false,"Duration is empty")
+        }
+        return (true,"")
+    }
+    
+    
     
 }
 

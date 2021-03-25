@@ -242,6 +242,16 @@ class Utility: NSObject
         lbl.frame  = CGRect(x: 5, y:-2, width: texview.frame.size.width, height: 30)
         lbl.textColor = color
     }
+    
+    
 
     
+}
+
+class Alerts {
+    static func showAlertViewController(title: String, message: String, btnTitle1: String, ok handler: ((UIAlertAction) -> Void)?, viewController: UIViewController){
+           let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: btnTitle1, style: .default, handler: handler));
+           viewController.present(alert, animated: true, completion: nil);
+       }
 }
