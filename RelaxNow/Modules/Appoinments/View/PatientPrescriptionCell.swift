@@ -7,14 +7,24 @@
 
 import UIKit
 
+protocol PatientPrescriptionDelete: class {
+    func prescriptionDidSubmit(withNotes: String, prescriptions:[PrescriptionModel])
+    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String
+}
+
 class PatientPrescriptionCell: UITableViewCell {
 
+    weak var delegate: PatientPrescriptionDelete?
     @IBOutlet weak var tableViewHeight: NSLayoutConstraint!
     @IBOutlet weak var btnSearchMedicine: UIButton!
+    @IBOutlet weak var prescriptionTextView: UITextView!
     
     @IBOutlet weak var tableViewPrescriptions: UITableView!
     
-    let numberOfCells = 3
+    var prescriptions: [PrescriptionModel]?
+    var numberOfCells:Int{
+        prescriptions?.count ?? 0
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -35,6 +45,19 @@ class PatientPrescriptionCell: UITableViewCell {
         tableViewPrescriptions.registerTableCell(identifier: .addMedicationTableCell)
     }
 
+    func configureCellWith(prescriptions: [PrescriptionModel]){
+        self.prescriptions = prescriptions
+        tableViewHeight.constant = CGFloat(140 * numberOfCells)
+        self.tableViewPrescriptions.reloadData()
+        self.layoutIfNeeded()
+    }
+    
+    @IBAction func submitPrescriptionWithMedicationButtonAction(_ sender: UIButton) {
+        let notes = prescriptionTextView.text ?? ""
+        if let prescriptions = self.prescriptions {
+            self.delegate?.prescriptionDidSubmit(withNotes: notes, prescriptions: prescriptions)
+        }
+    }
 }
 
 extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
@@ -44,12 +67,32 @@ extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.addMedicationTableCell.rawValue, for: indexPath) as? AddMedicationTableCell
-//        cell?.configureCell(with: indexPath)
+        if let prescription = self.prescriptions?[indexPath.row]{
+            cell?.configureCell(with: prescription)
+            cell?.delegate = self
+        }
         return cell ?? UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140.0
     }
+    
+}
+
+extension PatientPrescriptionCell: AddMedicationDelegate{
+    func didSelectPlanOfAction(prescriptionData: PrescriptionModel, button: UIButton) -> String {
+       return delegate?.didSelectPlanOfAction(prescriptionData: prescriptionData, button: button) ?? "None"
+    }
+    
+    func didUpdatePriscription(prescriptionData: PrescriptionModel) {
+        for (index, prescription) in self.prescriptions!.enumerated(){
+            if prescription.medicineId == prescriptionData.medicineId{
+                self.prescriptions?[index] = prescriptionData
+            }
+            debugPrint("Update Prescription ", self.prescriptions)
+        }
+    }
+    
     
 }

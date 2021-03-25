@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -64,7 +64,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lZL-1y-FbV">
-                                        <rect key="frame" x="69.5" y="6" width="80" height="28"/>
+                                        <rect key="frame" x="72.5" y="6" width="80" height="28"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="Mue-Lj-mM1"/>
@@ -72,6 +72,9 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="KGk-i7-Jjw" id="F33-QO-4kt"/>
+                                        </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bPH-Nr-n7b">
                                         <rect key="frame" x="121.5" y="17" width="27.5" height="16"/>
@@ -80,19 +83,22 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dose" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iDD-QT-ywt" userLabel="Duration:">
-                                        <rect key="frame" x="161.5" y="12" width="31.5" height="16"/>
+                                        <rect key="frame" x="164.5" y="12" width="31.5" height="16"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V2j-6y-4mM">
-                                        <rect key="frame" x="201" y="6" width="139" height="28"/>
+                                        <rect key="frame" x="204" y="6" width="136" height="28"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="1uE-SQ-gOW"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="KGk-i7-Jjw" id="0cn-oB-inx"/>
+                                        </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Days" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ePv-VO-tcv">
                                         <rect key="frame" x="310" y="17" width="30" height="16"/>
@@ -104,7 +110,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="ePv-VO-tcv" secondAttribute="trailing" constant="16" id="0Bh-rJ-0Bi"/>
-                                    <constraint firstItem="lZL-1y-FbV" firstAttribute="leading" secondItem="PgZ-RM-tJH" secondAttribute="trailing" constant="8" id="3Xn-Bl-G3a"/>
+                                    <constraint firstItem="lZL-1y-FbV" firstAttribute="leading" secondItem="PgZ-RM-tJH" secondAttribute="trailing" constant="11" id="3Xn-Bl-G3a"/>
                                     <constraint firstItem="iDD-QT-ywt" firstAttribute="leading" secondItem="lZL-1y-FbV" secondAttribute="trailing" constant="12" id="5L2-q0-nga"/>
                                     <constraint firstItem="V2j-6y-4mM" firstAttribute="centerY" secondItem="lZL-1y-FbV" secondAttribute="centerY" id="8Xe-0e-u82"/>
                                     <constraint firstItem="PgZ-RM-tJH" firstAttribute="centerY" secondItem="wH8-d0-ihp" secondAttribute="centerY" id="Cf3-0d-Z0k"/>
@@ -143,6 +149,9 @@
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="KGk-i7-Jjw" id="cWl-Qa-DAJ"/>
+                                        </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="mg" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DwO-yb-eb2">
                                         <rect key="frame" x="124" y="17" width="19.5" height="16"/>
@@ -174,12 +183,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U2j-bz-bxX">
-                                        <rect key="frame" x="254.5" y="6" width="62" height="28"/>
+                                        <rect key="frame" x="254.5" y="6" width="67" height="28"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5mZ-51-5Nv">
-                                                <rect key="frame" x="4" y="0.0" width="30" height="28"/>
+                                                <rect key="frame" x="4" y="0.0" width="35" height="28"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <state key="normal" title="20">
+                                                <state key="normal" title="None">
                                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 </state>
                                                 <connections>
@@ -187,7 +196,7 @@
                                                 </connections>
                                             </button>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="downArrow" translatesAutoresizingMaskIntoConstraints="NO" id="YGl-uu-WWA">
-                                                <rect key="frame" x="42" y="6" width="16" height="16"/>
+                                                <rect key="frame" x="47" y="6" width="16" height="16"/>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -254,8 +263,10 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="btnPlanofAction" destination="5mZ-51-5Nv" id="WYn-Ox-VbW"/>
+                <outlet property="durationTextField" destination="h0U-Qa-5dT" id="hOH-0E-iWe"/>
                 <outlet property="numberOfDayCountTextField" destination="V2j-6y-4mM" id="Lxs-QS-5vH"/>
                 <outlet property="perDayCountTextField" destination="lZL-1y-FbV" id="men-sf-9c9"/>
+                <outlet property="titleLabel" destination="KLe-LI-JjQ" id="bgd-jB-cwq"/>
                 <outlet property="viewPlanOfAction" destination="U2j-bz-bxX" id="LtG-Wg-3IJ"/>
             </connections>
             <point key="canvasLocation" x="-120.28985507246378" y="54.241071428571423"/>
