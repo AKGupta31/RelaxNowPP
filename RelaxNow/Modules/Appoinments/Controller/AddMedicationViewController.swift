@@ -175,27 +175,38 @@ extension AddMedicationViewController: PatientPrescriptionDelete{
 
     func prescriptionDidSubmit(withNotes: String, prescriptions: [PrescriptionModel]) {
         
-        /**************VALIDATION*************/
-        var isAllPrescriptionsFilled :(isValid:Bool,errorMessage:String)!
-        var errorIndex = -1
-        for (index,prescription) in prescriptions.enumerated() {
-            isAllPrescriptionsFilled = (prescription.isAllFieldsFilled)
-            if !isAllPrescriptionsFilled.0 {
-                errorIndex = index
-                break
+        if UserData.current.role == "Psychiatrist"{
+            self.insertPrescription(withNotes: withNotes) { (PRESCRIPTION_id) in
+                SwiftSpinner.hide()
+                if PRESCRIPTION_id != nil{
+                    Alerts.showAlertViewController(title: "Success!!!", message: "Successfully submitted prescription", btnTitle1: "Ok", ok: { (action) in
+                        self.navigationController?.popViewController(animated: true)
+                    }, viewController: self)
+                }
             }
-        }
-        
-        if !isAllPrescriptionsFilled.0 && errorIndex != -1{
-            Alerts.showAlertViewController(title: "Alert!!!", message: isAllPrescriptionsFilled.1 + "for \(prescriptions[errorIndex].medicineName ?? "")", btnTitle1: "Ok", ok: nil, viewController: self)
-            return
-        }
-        
-        /**************END OF VALIDATION*************/
-        
-        self.insertPrescription(withNotes: withNotes) { (PRESCRIPTION_id) in
-            if let prescriptionId = PRESCRIPTION_id{
-                self.insertPrescriptionMedicine(prescriptionId: prescriptionId, prescriptions: prescriptions)
+        }else{
+            /**************VALIDATION*************/
+            var isAllPrescriptionsFilled :(isValid:Bool,errorMessage:String)!
+            var errorIndex = -1
+            for (index,prescription) in prescriptions.enumerated() {
+                isAllPrescriptionsFilled = (prescription.isAllFieldsFilled)
+                if !isAllPrescriptionsFilled.0 {
+                    errorIndex = index
+                    break
+                }
+            }
+            
+            if !isAllPrescriptionsFilled.0 && errorIndex != -1{
+                Alerts.showAlertViewController(title: "Alert!!!", message: isAllPrescriptionsFilled.1 + "for \(prescriptions[errorIndex].medicineName ?? "")", btnTitle1: "Ok", ok: nil, viewController: self)
+                return
+            }
+            
+            /**************END OF VALIDATION*************/
+            
+            self.insertPrescription(withNotes: withNotes) { (PRESCRIPTION_id) in
+                if let prescriptionId = PRESCRIPTION_id{
+                    self.insertPrescriptionMedicine(prescriptionId: prescriptionId, prescriptions: prescriptions)
+                }
             }
         }
     }

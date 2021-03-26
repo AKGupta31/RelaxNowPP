@@ -14,6 +14,7 @@ protocol PatientPrescriptionDelete: class {
 
 class PatientPrescriptionCell: UITableViewCell {
 
+    @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var viewSubmit: UIView!
     
@@ -39,6 +40,12 @@ class PatientPrescriptionCell: UITableViewCell {
         prescriptionTextView.layer.borderWidth = 1.0
         prescriptionTextView.layer.borderColor = UIColor(named: "BorderColor")?.cgColor
         registerCell()
+        
+        if UserData.current.role == "Psychiatrist"{
+            self.tableViewHeight.constant = 0
+            self.searchBarHeightConstraint.constant = 0
+        }
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -70,7 +77,11 @@ class PatientPrescriptionCell: UITableViewCell {
 
 extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewSubmit.isHidden = numberOfCells <= 0
+        if UserData.current.role == "Psychiatrist"{
+            viewSubmit.isHidden = false
+        }else{
+            viewSubmit.isHidden = numberOfCells <= 0
+        }
         return numberOfCells
     }
     
