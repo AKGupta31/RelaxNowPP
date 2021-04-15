@@ -10,7 +10,7 @@ import UIKit
 
 
 protocol MedicineListVCDelegate:class {
-    func didSelectMedicines(prescriptions:[PrescriptionModel])
+    func didSelectMedicines(prescriptions:[PrescriptionModelNew])
 }
 
 class MedicineListViewController: UIViewController {
@@ -48,7 +48,7 @@ class MedicineListViewController: UIViewController {
     
     @IBAction func actionDone(_ sender: UIButton) {
         let selectedMedicines = self.searchedMedicines.filter({$0.isSelected})
-        delegate?.didSelectMedicines(prescriptions:PrescriptionModel.getPrescriptions(medicines: selectedMedicines))
+        delegate?.didSelectMedicines(prescriptions:PrescriptionModelNew.getPrescriptions(medicines: selectedMedicines))
         self.dismiss(animated: true, completion: nil)
     }
     

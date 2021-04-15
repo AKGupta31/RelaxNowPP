@@ -279,20 +279,29 @@
                             <constraint firstAttribute="trailing" secondItem="wH8-d0-ihp" secondAttribute="trailing" id="zYT-dY-4PQ"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Fk-uz-kAS">
+                        <rect key="frame" x="0.0" y="0.0" width="356" height="150"/>
+                        <color key="backgroundColor" red="0.95686274510000002" green="0.95686274510000002" blue="0.95686274510000002" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="UMq-gF-UTw" secondAttribute="trailing" constant="8" id="7mE-ht-Hri"/>
+                    <constraint firstItem="7Fk-uz-kAS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="L79-LG-TOC"/>
+                    <constraint firstAttribute="trailing" secondItem="7Fk-uz-kAS" secondAttribute="trailing" id="f66-pi-tbl"/>
                     <constraint firstItem="UMq-gF-UTw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="g7h-Ae-AmD"/>
+                    <constraint firstAttribute="bottom" secondItem="7Fk-uz-kAS" secondAttribute="bottom" id="piU-XK-Wuc"/>
+                    <constraint firstItem="7Fk-uz-kAS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="xld-ak-YAv"/>
                     <constraint firstItem="UMq-gF-UTw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="yJk-Bt-qeJ"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="btnDisableCell" destination="7Fk-uz-kAS" id="37J-gZ-24v"/>
                 <outlet property="btnPlanofAction" destination="5mZ-51-5Nv" id="WYn-Ox-VbW"/>
+                <outlet property="doseField" destination="V2j-6y-4mM" id="d9P-rs-ySN"/>
                 <outlet property="durationTextField" destination="h0U-Qa-5dT" id="hOH-0E-iWe"/>
-                <outlet property="numberOfDayCountTextField" destination="V2j-6y-4mM" id="Lxs-QS-5vH"/>
-                <outlet property="perDayCountTextField" destination="lZL-1y-FbV" id="men-sf-9c9"/>
                 <outlet property="planOfActionField" destination="Vcy-vO-iWi" id="BdG-9Q-jEk"/>
+                <outlet property="potencyField" destination="lZL-1y-FbV" id="Lfz-Vt-pca"/>
                 <outlet property="titleLabel" destination="KLe-LI-JjQ" id="bgd-jB-cwq"/>
                 <outlet property="viewPlanOfAction" destination="U2j-bz-bxX" id="LtG-Wg-3IJ"/>
             </connections>

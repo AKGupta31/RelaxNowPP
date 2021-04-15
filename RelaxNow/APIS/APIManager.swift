@@ -42,6 +42,7 @@ enum EndpointItem {
     case doctorAppointments//DOCTOR_APPOINTMENTS
     case medicineList
     case insertPrescription
+    case getPreviousPrescriptions
     //    case updateUser
     //    case userExists(_: String)
     
@@ -70,9 +71,10 @@ extension EndpointItem: EndPointType {
         switch self {
         case .login : return "login/obj"
         case .profile: return "user/profile"
-        case .doctorAppointments: return "api/executequery"
-        case .medicineList: return "api/executequery"
-        case .insertPrescription: return "api/executequery"
+        case .doctorAppointments:fallthrough
+        case .medicineList: fallthrough
+        case .insertPrescription:fallthrough
+        case .getPreviousPrescriptions: return "api/executequery"
         //        case .updateUser:
         //            return "user/update"
         //        case .userExists(let email):
@@ -82,7 +84,7 @@ extension EndpointItem: EndPointType {
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .login,.doctorAppointments,.medicineList,.insertPrescription:
+        case .login,.doctorAppointments,.medicineList,.insertPrescription,.getPreviousPrescriptions:
             return .post
         case .profile:
             return .get
@@ -95,7 +97,7 @@ extension EndpointItem: EndPointType {
         switch self {
         case .login :
             return ["Content-Type": "application/json"]
-        case .profile,.doctorAppointments,.medicineList,.insertPrescription:
+        case .profile,.doctorAppointments,.medicineList,.insertPrescription,.getPreviousPrescriptions:
             return ["Content-Type": "application/json",
                     "token": UserData.current.token!]
         default:
@@ -166,8 +168,9 @@ class APIManager {
                                         case .success(_):
                                             let decoder = JSONDecoder()
                                             if let jsonData = data.data {
-                                                
+                                                print("result is ",jsonData)
                                                 let result = try! decoder.decode(T.self, from: jsonData)
+                                                
                                                 handler(result, nil)
                                             }
                                             break
@@ -254,13 +257,7 @@ class APIManager {
         }
     }
     
-    func listOfAppointments(_ doctorId: String,_ date: String, complition: @escaping (_ patients: [PatientData]?, _ message: AlertMessage?)->()){
-        let parameter:Parameters = ["query":"CALL RN_DOCTOR_APPOINTMENTS('\(doctorId)','\(date)')",
-                                    "params":""]
-        self.callMethod(type: .doctorAppointments, params: parameter) { (appointment: PatientBaseData?, alert) in
-            complition(appointment?.patients,alert)
-        }
-    }
+   
     
     func listOfPatientss(_ doctorId: String,_ date: String, complition: @escaping (_ patients: [PatientData]?, _ message: AlertMessage?)->()){
         let parameter:Parameters = ["query":"call RN_DOCTOR_PATIENTS('\(doctorId)','\(date)')",
@@ -289,13 +286,31 @@ class APIManager {
         }
     }
     
-    func insertMedicne(prescriptionId: Int, medicine: PrescriptionModel,createdBy: String, complition: @escaping (_ response: [[String: Any]]?, _ message: AlertMessage?)->()){
+    func insertMedicne(prescriptionId: Int, medicine: PrescriptionModelNew,createdBy: String, complition: @escaping (_ response: [[String: Any]]?, _ message: AlertMessage?)->()){
         
         
-        let parameter:Parameters = ["query":"call RN_APPOINTMENT_PRESCRIPTION_MEDICINE_INSERT('\(prescriptionId)','\(medicine.medicineName!)','\(medicine.potency!)','\(medicine.dose!)','\(medicine.duration!)','\(medicine.action)','\(createdBy)')","params":""]
+        let parameter:Parameters = ["query":"call RN_APPOINTMENT_PRESCRIPTION_MEDICINE_INSERT('\(prescriptionId)','\(medicine.mEDICINE!)','\(medicine.pOTENCY!)','\(medicine.dOSE!)','\(medicine.dURATION!)','\(medicine.pLANOFACTION)','\(createdBy)')","params":""]
         
         self.callMethod(type: .insertPrescription, params: parameter) { (response, alert) in
             complition(response,alert)
+        }
+    }
+    
+    
+    func getPreviousPrescriptions(_ customerId: Int, completion: @escaping (_ history: PrescriptionHistoryResponse?, _ message: AlertMessage?)->()){
+        let parameter:Parameters = ["query":"call RN_APPOINTMENT_PRESCRIPTION_GETALL(\(customerId))",
+                                    "params":""]
+        
+        self.callMethod(type: .getPreviousPrescriptions,params: parameter) { (history:PrescriptionHistoryResponse?,alert) in
+            completion(history,alert)
+        }
+    }
+    
+    func listOfAppointments(_ doctorId: String,_ date: String, complition: @escaping (_ patients: [PatientData]?, _ message: AlertMessage?)->()){
+        let parameter:Parameters = ["query":"CALL RN_DOCTOR_APPOINTMENTS('\(doctorId)','\(date)')",
+                                    "params":""]
+        self.callMethod(type: .doctorAppointments, params: parameter) { (appointment: PatientBaseData?, alert) in
+            complition(appointment?.patients,alert)
         }
     }
     

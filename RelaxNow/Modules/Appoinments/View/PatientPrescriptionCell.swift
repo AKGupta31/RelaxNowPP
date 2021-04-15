@@ -8,12 +8,20 @@
 import UIKit
 
 protocol PatientPrescriptionDelete: class {
-    func prescriptionDidSubmit(withNotes: String, prescriptions:[PrescriptionModel])
+    func prescriptionDidSubmit(withNotes: String, prescriptions:[PrescriptionModelNew])
     func openPlanOfActionSheet(for prescriptionIndex:Int)
 }
 
-class PatientPrescriptionCell: UITableViewCell {
+enum PatientPrescriptionCellType:Int {
+    case new
+    case history
+}
 
+class PatientPrescriptionCell: UITableViewCell {
+    @IBOutlet weak var viewMedicinesHeaderHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var viewMedicinesHeader: UIView!
+    @IBOutlet weak var viewSubmitHeight: NSLayoutConstraint!
     @IBOutlet weak var searchBarHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var viewSubmit: UIView!
@@ -25,13 +33,22 @@ class PatientPrescriptionCell: UITableViewCell {
     
     @IBOutlet weak var tableViewPrescriptions: UITableView!
     
-    var prescriptions: [PrescriptionModel]?
+    var prescriptions: [PrescriptionModelNew]?
     var numberOfCells:Int {
-        prescriptions?.count ?? 0
+        print(prescriptions?.count ?? 0)
+        return prescriptions?.count ?? 0
     }
     
     var planOfActionPicker:UIPickerView? = nil
     var planOfActionToolbar:UIToolbar? = nil
+    var cellType:PatientPrescriptionCellType = .new {
+        didSet {
+            viewMedicinesHeaderHeight.constant = cellType == .new ? 44 : 0.0
+            viewMedicinesHeader.isHidden = cellType == .history
+            viewSubmitHeight.constant = cellType == .new ? 40 : 0.0
+            prescriptionTextView.isEditable = cellType == .new
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -60,12 +77,14 @@ class PatientPrescriptionCell: UITableViewCell {
         tableViewPrescriptions.registerTableCell(identifier: .addMedicationTableCell)
     }
 
-    func configureCellWith(prescriptions: [PrescriptionModel]){
+    func configureCellWith(prescriptions: [PrescriptionModelNew]){
         self.prescriptions = prescriptions
         tableViewHeight.constant = CGFloat(140 * numberOfCells)
         self.tableViewPrescriptions.reloadData()
         self.layoutIfNeeded()
+        self.prescriptionTextView.text = self.prescriptions?.first?.pRESCRIPTION
     }
+    
     
     @IBAction func submitPrescriptionWithMedicationButtonAction(_ sender: UIButton) {
         let notes = prescriptionTextView.text ?? ""
@@ -77,10 +96,14 @@ class PatientPrescriptionCell: UITableViewCell {
 
 extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if UserData.current.role == "Psychiatrist"{
-            viewSubmit.isHidden = false
-        }else{
-            viewSubmit.isHidden = numberOfCells <= 0
+        if cellType == .new {
+            if UserData.current.role == "Psychiatrist"{
+                viewSubmit.isHidden = false
+            }else{
+                viewSubmit.isHidden = numberOfCells <= 0
+            }
+        }else {
+            viewSubmit.isHidden = true
         }
         return numberOfCells
     }
@@ -92,8 +115,14 @@ extension PatientPrescriptionCell: UITableViewDelegate, UITableViewDataSource{
             cell?.delegate = self
         }
         cell?.prescriptionIndex = indexPath.row
-        cell?.planOfActionField.inputAccessoryView = planOfActionToolbar
-        cell?.planOfActionField.inputView = planOfActionPicker
+        if self.cellType == .new {
+            cell?.planOfActionField.inputAccessoryView = planOfActionToolbar
+            cell?.planOfActionField.inputView = planOfActionPicker
+            cell?.btnDisableCell.isHidden = true
+        }else {
+            cell?.btnDisableCell.isHidden = false
+        }
+       
         return cell ?? UITableViewCell()
     }
     
@@ -109,7 +138,7 @@ extension PatientPrescriptionCell: AddMedicationDelegate{
     }
     
     
-    func didUpdatePriscription(prescriptionData: PrescriptionModel) {
+    func didUpdatePriscription(prescriptionData: PrescriptionModelNew) {
         for (index, prescription) in self.prescriptions!.enumerated(){
             if prescription.medicineId == prescriptionData.medicineId{
 //                if let addMedicineVC = self.parentContainerViewController as? AddMedicationViewController {

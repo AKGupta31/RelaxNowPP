@@ -38,6 +38,7 @@ class LoginViewController: UIViewController {
             [weak self] (userData, alert) in
             SwiftSpinner.hide()
             if userData != nil{
+                print("token ",userData?.token ?? "")
                 UserData.setCurrent(userData!)
                 Helper.dispatchMain {
 //                    let controller = DashboardViewController.instatiate(from: .Main)

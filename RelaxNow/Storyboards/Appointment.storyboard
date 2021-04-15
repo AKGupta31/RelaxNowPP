@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -856,7 +856,10 @@
                                             <outlet property="searchBarHeightConstraint" destination="DWV-kE-u3u" id="xsN-RK-qi2"/>
                                             <outlet property="tableViewHeight" destination="UqC-d0-PwS" id="XKj-VK-C3O"/>
                                             <outlet property="tableViewPrescriptions" destination="H73-XC-7Zx" id="JwF-2q-DMd"/>
+                                            <outlet property="viewMedicinesHeader" destination="6Oo-Rx-7af" id="akQ-tU-wjX"/>
+                                            <outlet property="viewMedicinesHeaderHeight" destination="DWV-kE-u3u" id="kbh-Ru-gC6"/>
                                             <outlet property="viewSubmit" destination="T1f-rq-w5w" id="jNz-h6-zBG"/>
+                                            <outlet property="viewSubmitHeight" destination="4jy-Kp-ENA" id="Tnl-W5-Y4W"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

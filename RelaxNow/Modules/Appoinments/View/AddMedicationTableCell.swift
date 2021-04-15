@@ -8,11 +8,12 @@
 import UIKit
 
 protocol AddMedicationDelegate: class {
-    func didUpdatePriscription(prescriptionData: PrescriptionModel)
+    func didUpdatePriscription(prescriptionData: PrescriptionModelNew)
     func openPlanOfActionSheet(for prescriptionIndex:Int)
 }
 class AddMedicationTableCell: UITableViewCell {
    
+    @IBOutlet weak var btnDisableCell: UIButton!
     weak var delegate: AddMedicationDelegate?
     
     @IBOutlet weak var planOfActionField: UITextField!
@@ -22,13 +23,13 @@ class AddMedicationTableCell: UITableViewCell {
     
     @IBOutlet weak var btnPlanofAction: UIButton!
     
-    @IBOutlet weak var perDayCountTextField: UITextField!
-    @IBOutlet weak var numberOfDayCountTextField: UITextField!
+    @IBOutlet weak var potencyField: UITextField!
+    @IBOutlet weak var doseField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
     
     @IBOutlet weak var titleLabel: UILabel!
     
-    var prescriptionData: PrescriptionModel?
+    var prescriptionData: PrescriptionModelNew?
     var prescriptionIndex:Int = 0
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,29 +42,27 @@ class AddMedicationTableCell: UITableViewCell {
     
     
     private func setUpUI(){
-        perDayCountTextField.layer.masksToBounds = true
-        perDayCountTextField.layer.masksToBounds = true
-
-        
+        potencyField.layer.masksToBounds = true
+        potencyField.layer.masksToBounds = true
         guard let borderColor = UIColor(named: "BorderColor") else {return}
-        perDayCountTextField.layer.borderColor = borderColor.cgColor
-        numberOfDayCountTextField.layer.borderColor = borderColor.cgColor
+        potencyField.layer.borderColor = borderColor.cgColor
+        doseField.layer.borderColor = borderColor.cgColor
         durationTextField.layer.borderColor = borderColor.cgColor
         viewPlanOfAction.layer.borderColor = borderColor.cgColor
-        
-        perDayCountTextField.layer.borderWidth = 1
-        numberOfDayCountTextField.layer.borderWidth = 1
+        doseField.layer.borderWidth = 1
+        potencyField.layer.borderWidth = 1
         durationTextField.layer.borderWidth = 1
         viewPlanOfAction.layer.borderWidth = 1
-
-        
     }
     
     
-    func configureCell(with prescription: PrescriptionModel){
+    func configureCell(with prescription: PrescriptionModelNew){
         self.prescriptionData = prescription
-        self.titleLabel.text = prescription.medicineName
-        self.planOfActionField.text = prescription.action
+        self.titleLabel.text = prescription.mEDICINE
+        self.planOfActionField.text = prescription.pLANOFACTION
+        self.durationTextField.text = prescription.dURATION
+        self.doseField.text = prescription.dOSE
+        self.potencyField.text = prescription.pOTENCY
     }
     
     @IBAction func actionPlanOfAction(_ sender: UIButton) {
@@ -75,12 +74,12 @@ class AddMedicationTableCell: UITableViewCell {
 }
 extension AddMedicationTableCell: UITextFieldDelegate{
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if textField == perDayCountTextField{
-            self.prescriptionData?.potency = textField.text
-        }else if textField == numberOfDayCountTextField{
-            self.prescriptionData?.dose = textField.text
+        if textField == potencyField{
+            self.prescriptionData?.pOTENCY = textField.text
+        }else if textField == doseField{
+            self.prescriptionData?.dOSE = textField.text
         }else if textField == durationTextField{
-            self.prescriptionData?.duration = textField.text
+            self.prescriptionData?.dURATION = textField.text
         }else if textField == planOfActionField {
             return
         }

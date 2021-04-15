@@ -42,6 +42,7 @@
 		8485F2512606416D00D301B3 /* PrescriptionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485F2502606416D00D301B3 /* PrescriptionModel.swift */; };
 		8485F25A26075F1300D301B3 /* PatientAppointmentDetailsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485F25926075F1300D301B3 /* PatientAppointmentDetailsCell.swift */; };
 		8485F25D26075F6500D301B3 /* PatientPrescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8485F25C26075F6500D301B3 /* PatientPrescriptionCell.swift */; };
+		84B7EBA1260F6EA5003322BD /* PrescriptionHistoryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B7EBA0260F6EA5003322BD /* PrescriptionHistoryResponse.swift */; };
 		BE1BF3AC25EFF85700CFE8A2 /* AppointmentListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BF3AB25EFF85700CFE8A2 /* AppointmentListViewController.swift */; };
 		BE1BF3B125F00C7000CFE8A2 /* AppointmentListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1BF3AF25F00C7000CFE8A2 /* AppointmentListCell.swift */; };
 		BE1BF3B225F00C7000CFE8A2 /* AppointmentListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE1BF3B025F00C7000CFE8A2 /* AppointmentListCell.xib */; };
@@ -108,6 +109,7 @@
 		8485F2502606416D00D301B3 /* PrescriptionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrescriptionModel.swift; sourceTree = "<group>"; };
 		8485F25926075F1300D301B3 /* PatientAppointmentDetailsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientAppointmentDetailsCell.swift; sourceTree = "<group>"; };
 		8485F25C26075F6500D301B3 /* PatientPrescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatientPrescriptionCell.swift; sourceTree = "<group>"; };
+		84B7EBA0260F6EA5003322BD /* PrescriptionHistoryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrescriptionHistoryResponse.swift; sourceTree = "<group>"; };
 		A39B196568A3C2CA582ADCEC /* Pods_RelaxNow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RelaxNow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B8D0902188FCE147C0A3B5DB /* Pods-RelaxNow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RelaxNow.release.xcconfig"; path = "Target Support Files/Pods-RelaxNow/Pods-RelaxNow.release.xcconfig"; sourceTree = "<group>"; };
 		BE1BF3AB25EFF85700CFE8A2 /* AppointmentListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppointmentListViewController.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 			children = (
 				BE7F63FD25F69AD900D650E4 /* UserData.swift */,
 				BEE75CDA25F93EFD00E5542C /* BaseDataModel.swift */,
+				84B7EBA0260F6EA5003322BD /* PrescriptionHistoryResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				31538AEF25EF2D570033594C /* ZWTextField.swift in Sources */,
+				84B7EBA1260F6EA5003322BD /* PrescriptionHistoryResponse.swift in Sources */,
 				BEFE53DC25F3FB70008CF393 /* AddMedicationViewController.swift in Sources */,
 				84569D6525EA8654004BB24C /* LoginViewController.swift in Sources */,
 				31538B3425EFE63A0033594C /* AppointmentsViewController.swift in Sources */,

@@ -154,6 +154,11 @@ extension LeftViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let sideMenuController = sideMenuController else { return }
         
+        if indexPath.section == 1 && indexPath.row == 1 {
+            //logout
+            return
+        }
+        
         if indexPath.row == 0 {
             let viewController = DashboardViewController.instatiate(from: .Main)
             if let navigationController = sideMenuController.rootViewController as? RootNavigationController {
